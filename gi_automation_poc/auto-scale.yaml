@@ -12,7 +12,7 @@ Resources:
               DeleteOnTermination: true
               Encrypted: true
             DeviceName: /dev/xvdcz
-        ImageId: ami-0beaebf90902caa11
+        ImageId: %AMI_ID%
         InstanceType: t2.micro
         KeyName: sss
         Monitoring: 
