@@ -15,7 +15,7 @@ Resources:
         ImageId: %AMI_ID%
         InstanceType: t2.micro
         KeyName: sss
-	    Monitoring: 
+        Monitoring: 
           Enabled: true
         SecurityGroupIds: 
           -  sg-0b8215dcaf08a81d4
@@ -24,7 +24,6 @@ Resources:
     Properties:
       AvailabilityZones:
       - ap-south-1a
-      - ap-south-1b
       AutoScalingGroupName: veloASG
       MinSize: "2"
       MaxSize: "4"
@@ -41,4 +40,3 @@ Resources:
         WaitOnResourceSignals: true
       VPCZoneIdentifier:
         - subnet-0a6d637435d294d13
-    DependsOn:  veloLaunchTemplate
