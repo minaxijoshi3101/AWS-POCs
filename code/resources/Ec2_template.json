@@ -1,0 +1,19 @@
+"Resources" : {
+    "InstanceProfile" : {
+      "Type" : "AWS::IAM::InstanceProfile",
+      "Properties" : {
+        "Path" : "/",
+        "Roles" : ["cloudFormationAccess"]
+      }
+    },
+  
+    "Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "IamInstanceProfile" : {"Ref" : "InstanceProfile"} ,
+        "ImageId" : "ami-052cef05d01020f1d" ,
+        "InstanceType" :  "t2.micro"
+      }
+    }
+}
+  
