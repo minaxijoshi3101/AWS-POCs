@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  webInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      SubnetId: 
+        Fn::ImportValue: PublicSubnetID
+      Tags: 
+      - Key: Name
+        Value: WebServer
+      ImageId: ami-052cef05d01020f1d 
+      InstanceType: t2.micro
+      SecurityGroupIds:
+      - Fn::ImportValue: WebServerSG
+      KeyName: sss
+  
+  DBSever:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      SubnetId: 
+        Fn::ImportValue: DBSubnet
+      Tags: 
+      - Key: Name
+        Value: DBServer
+      ImageId: ami-052cef05d01020f1d 
+      InstanceType: t2.micro
+      SecurityGroupIds:
+      - Fn::ImportValue: DBServerSG
+      KeyName: sss
+  
+Outputs:
+  PublicIpID: 
+    Description: "to get the public IP"
+    Value: !Ref webInstance
+    Export:
+      Name: webInstanceID
+  
+  PrivateServerIp:
+    Value: !Ref DBSever
+    Export: 
+        Name: dbServerInstanceId

@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "to create public and private subnetworks"
+Parameters:
+  PublicSubnetCIDR:
+    Default: 10.0.1.0/24
+    Description: "please enter the IP range (CIDR Notattion)  for the PublicSubnet1"
+    Type: String
+  
+  PrivateSubnetCIDR:
+    Default: 10.0.2.0/24
+    Description: "please enter the IP range (CIDR notation) for privatesubnet2"
+    Type: String
+  
+Resources:
+  DevEnvSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ''] 
+      CidrBlock: !Ref PublicSubnetCIDR
+      Tags:
+        - Key: Name
+          Value: PublicSubnet
+      VpcId:
+          Fn::ImportValue: RBCVPC
+  
+  QAEnvSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PrivateSubnetCIDR
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: ap-south-1a
+      Tags:
+        - Key: Name
+          Value: PrivateSubnet
+      VpcId: 
+          Fn::ImportValue: RBCVPC
+
+Outputs:
+  PublicSubnetID:
+    Description: "to get the public subnet ID"
+    Value: !Ref DevEnvSubnet
+    Export:
+      Name:  PublicSubnetID
+
+  DbSubnetId:
+    Description: "to get the private subnet ID"
+    Value: !Ref QAEnvSubnet
+    Export:
+      Name: DBSubnet 

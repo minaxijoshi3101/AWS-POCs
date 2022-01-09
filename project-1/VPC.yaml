@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+  VPCCIDR:
+    Description: "this is to get the CIDR value for VPC"
+    Default: 10.0.0.0/16
+    Type: String
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCCIDR
+      InstanceTenancy: default
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      Tags:
+      - Key: stack
+        Value: production
+      - Key: Name
+      #join ia an intrinsic function.  
+      #CloudFormation has about 15 such functions.  
+      # !Join is used to concatenate a text string together.  
+      # The '' within the first bracket identifies the character to place between the concatenated values.  
+      # We don't want any, so we put an empty string.
+        Value: !Join ['', [!Ref "AWS::StackName", "-VPC" ]]
+Outputs:
+  VPCId:
+    Description: A reference to the created VPC
+    Value: !Ref VPC
+    Export:
+      Name: RBCVPC

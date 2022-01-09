@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  webInstance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      SubnetId: 
+        subnet-0d1e29c6fcf5f8181
+      Tags: 
+      - Key: Name
+        Value: WebServer
+      ImageId: ami-052cef05d01020f1d 
+      InstanceType: t2.micro
+      SecurityGroupIds:
+      - sg-06a5a339ec425d0fe
+      KeyName: key
+  
+Outputs:
+  PublicIpID: 
+    Description: "to get the public IP"
+    Value: !Ref webInstance
+    Export:
+      Name: webInstanceID
+

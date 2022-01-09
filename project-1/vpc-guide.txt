@@ -1,0 +1,10 @@
+spin-up a VPC - 
+        Name tag
+        IPv4 CIDR
+        Tenancy
+        Tags
+
+create subnet:
+    AvailabilityZone: 
+    CidrBlock:
+    MapPublicIpOnLaunch:

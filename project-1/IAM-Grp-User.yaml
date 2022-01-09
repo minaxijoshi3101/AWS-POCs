@@ -1,0 +1,24 @@
+Resources:
+    MyIAMUser:
+        Type: AWS::IAM::User
+        Properties:
+          UserName: !Join ["-",[  !Ref "AWS::Region","minaxi" ]]
+          LoginProfile: 
+            Password: Minaxi@2405
+          Groups:
+            - !Sub '${MyIAMGroup}'
+        DependsOn: "MyIAMGroup"
+    MyIAMGroup:
+        Type: AWS::IAM::Group
+        Properties:
+          GroupName: !Join ["-", [ !Ref "AWS::Region","grpCF" ]]
+          Policies:
+                - PolicyName: ec2AccessGrp
+                  PolicyDocument: 
+                    Version: "2012-10-17"
+                    Statement: 
+                        - 
+                            Effect: "Allow"
+                            Action: "*"
+                            Resource: "*"
+  

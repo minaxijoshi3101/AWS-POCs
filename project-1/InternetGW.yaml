@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties: 
+      Tags: 
+        - Key: Name
+          Value: IGW-Test
+  
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: 
+        Fn::ImportValue: RBCVPC
+      InternetGatewayId: !Ref InternetGateway
+
+  #create Route table:
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties: 
+      Tags: 
+        - Key: Name
+          Value: RT-auto
+      VpcId: 
+       Fn::ImportValue: RBCVPC
+
+  #Add a public route to RT
+  PublicRoute:
+      Type: AWS::EC2::Route
+      Properties:
+        RouteTableId:
+          Ref: PublicRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId:
+          Ref: InternetGateway
+
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: 
+       Fn::ImportValue: PublicSubnetID
+

@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Security groups
+Resources:
+  ALBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: "ELB security groups"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: application lb sg
+      VpcId: 
+        Fn::ImportValue: RBCVPC
+  
+  SSHSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: "SSH Security Group"
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+      Tags: 
+          - Key: Name
+            Value: SSH Security group
+      VpcId: 
+          Fn::ImportValue: RBCVPC
+  
+  WebServerSG:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties: 
+      GroupDescription: Enable HTTP/HTTPs access via port 8-/443
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref SSHSecurityGroup
+      Tags:
+        - Key: Name
+          Value: webServer Security Group
+      VpcId:
+        Fn::ImportValue: RBCVPC
+
+  #create SG for database
+  DataBaseSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: Enable Security group to database
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 3306
+        ToPort: 3306
+        CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: DB SG
+      VpcId: 
+        Fn::ImportValue: RBCVPC
+Outputs:
+  WebSG:
+    Description: "to get public SG"
+    Value: !Ref WebServerSG
+    Export:
+      Name: WebServerSG
+  
+  DBSG: 
+    Description: "to get private subnet"
+    Value: !Ref DataBaseSecurityGroup
+    Export: 
+      Name: DBServerSG
