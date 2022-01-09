@@ -16,3 +16,5 @@ sed -i -e "s#%AMI_ID%#$c#g" auto-scale.yaml
 fi
 
 aws cloudformation deploy --template-file auto-scale.yaml --stack-name velo-asg
+
+#aws cloudformation deploy --template-file 2-EC2.yaml --stack-name testMinaxi --capabilities CAPABILITY_NAMED_IAM

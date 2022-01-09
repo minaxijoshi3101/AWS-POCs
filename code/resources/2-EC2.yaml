@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  existingiamprofile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/" 
+      Roles:
+        - "cloudFormationAccess"
+  ec2instace:
+    Type: AWS::EC2::Instance
+    Properties: 
+      AvailabilityZone: ap-south-1b
+      IamInstanceProfile: !Ref existingiamprofile
+      SecurityGroupIds:
+        - sg-0b8215dcaf08a81d4
+      KeyName: key
+      Tags:
+        - Key: Name
+          Value: Dev-Server-1b
+      InstanceType: t2.large
+      ImageId: ami-052cef05d01020f1d
+      

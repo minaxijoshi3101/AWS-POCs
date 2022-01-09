@@ -1,0 +1,11 @@
+command to deploy cloudformation template:
+aws cloudformation deploy --template VPC.yaml --stack stackName
+
+Delete a cloudformation template
+aws cloudformation delete-stack --stack stackName
+
+we will have limited subnets requirement in any organization, so we create one by one in cloudformation template
+    - no looping required
+    creation of 100 subnets is not a practical scenario
+    subnets are created as environment wise
+    

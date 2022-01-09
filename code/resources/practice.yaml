@@ -1,0 +1,21 @@
+---
+course: "AWS Lambda"
+instructor: Minaxi
+instructor-full: 
+  first-name: Minaxi
+  last-name: Joshi
+  awesomeness-level: 1000
+
+section-list:
+- Introduction
+- Deploying your first function
+- Learning AWS lambda in depth
+- Real world examples
+
+lectures:
+- lecture-id: 1
+  lecture-name: intro
+  lecture-length: 5.03
+- lecture-id: 2
+  lecture-name: aws lambda
+  lecture-length: 5.03
